@@ -669,8 +669,29 @@ body {
     box-shadow: var(--shadow);
 }
 
+/* Form row for responsive layout */
+.form-row {
+    display: grid;
+    gap: var(--space-4);
+    grid-template-columns: 1fr;
+}
+
 .form-group {
     margin-bottom: var(--space-6);
+    position: relative;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: var(--space-2);
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: var(--font-size-sm);
+}
+
+.required {
+    color: #ef4444;
+    font-weight: 600;
 }
 
 .form-input {
@@ -683,6 +704,7 @@ body {
     font-size: var(--font-size-base);
     transition: var(--transition);
     font-family: inherit;
+    min-height: 44px; /* Touch-friendly minimum height */
 }
 
 .form-input:focus {
@@ -691,9 +713,98 @@ body {
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
+.form-input:hover {
+    border-color: var(--secondary-color);
+}
+
+.form-input::placeholder {
+    color: var(--text-light);
+    opacity: 0.7;
+}
+
 .form-textarea {
     resize: vertical;
     min-height: 120px;
+    line-height: 1.5;
+}
+
+/* Error states */
+.form-input.error {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.form-error {
+    color: #ef4444;
+    font-size: var(--font-size-xs);
+    margin-top: var(--space-1);
+    min-height: 1rem;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: all 0.2s ease;
+}
+
+.form-error.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Submit button enhancements */
+.btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-loading {
+    display: none;
+}
+
+.btn.loading .btn-text {
+    opacity: 0;
+}
+
+.btn.loading .btn-loading {
+    display: inline-block;
+}
+
+.form-status {
+    margin-top: var(--space-4);
+    padding: var(--space-3);
+    border-radius: var(--border-radius);
+    text-align: center;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.form-status.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.form-status.success {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.form-status.error {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+[data-theme="dark"] .form-status.success {
+    background: #052e16;
+    color: #bbf7d0;
+    border-color: #166534;
+}
+
+[data-theme="dark"] .form-status.error {
+    background: #450a0a;
+    color: #fecaca;
+    border-color: #991b1b;
 }
 
 /* ===== FOOTER ===== */
@@ -740,6 +851,101 @@ body {
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
+
+/* Desktop styles (≥1024px) - 2 column layout for name/email */
+@media (min-width: 1024px) {
+    .form-row {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-6);
+    }
+    
+    .form-textarea {
+        min-height: 140px;
+    }
+    
+    .contact-form {
+        padding: var(--space-10);
+    }
+    
+    .form-input {
+        padding: var(--space-5);
+        font-size: var(--font-size-lg);
+    }
+    
+    .btn-full {
+        padding: var(--space-4) var(--space-8);
+        font-size: var(--font-size-lg);
+    }
+}
+
+/* Tablet styles (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: var(--space-5);
+    }
+    
+    .form-group {
+        margin-bottom: var(--space-5);
+    }
+    
+    .form-input {
+        padding: var(--space-4);
+        min-height: 48px;
+    }
+    
+    .form-textarea {
+        min-height: 130px;
+    }
+    
+    .contact-form {
+        padding: var(--space-8);
+    }
+}
+
+/* Mobile styles (≤767px) */
+@media (max-width: 767px) {
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: var(--space-3);
+    }
+    
+    .form-group {
+        margin-bottom: var(--space-4);
+    }
+    
+    .form-input {
+        padding: var(--space-4);
+        min-height: 44px; /* Apple touch guidelines */
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+    
+    .form-textarea {
+        min-height: 120px;
+        padding: var(--space-4);
+    }
+    
+    .form-label {
+        font-size: var(--font-size-base);
+        margin-bottom: var(--space-2);
+    }
+    
+    .contact-form {
+        padding: var(--space-6);
+    }
+    
+    .btn-full {
+        min-height: 44px;
+        font-size: var(--font-size-base);
+        padding: var(--space-4);
+    }
+    
+    /* Ensure adequate spacing between form elements */
+    .form-group + .form-group {
+        margin-top: var(--space-2);
+    }
+}
+
 @media (max-width: 768px) {
     /* Navigation */
     .nav-menu {

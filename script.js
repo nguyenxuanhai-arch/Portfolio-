@@ -168,6 +168,13 @@ function animateSkillBars() {
 // ===== CONTACT FORM =====
 function initContactForm() {
     contactForm.addEventListener('submit', handleFormSubmit);
+    
+    // Add real-time validation
+    const inputs = contactForm.querySelectorAll('.form-input');
+    inputs.forEach(input => {
+        input.addEventListener('blur', () => validateField(input));
+        input.addEventListener('input', () => clearFieldError(input));
+    });
 }
 
 function handleFormSubmit(e) {
@@ -191,27 +198,100 @@ function handleFormSubmit(e) {
             showFormLoading(false);
             showFormSuccess();
             contactForm.reset();
+            clearAllErrors();
         }, 2000);
     }
 }
 
 function validateForm(data) {
-    const { name, email, subject, message } = data;
+    const { name, email, message } = data;
+    let isValid = true;
     
-    // Basic validation
-    if (!name.trim() || !email.trim() || !subject.trim() || !message.trim()) {
-        showFormError('Please fill in all fields.');
-        return false;
+    // Clear previous errors
+    clearAllErrors();
+    
+    // Name validation
+    if (!name || name.trim().length < 2) {
+        showFieldError('contact-name', 'Please enter a valid name (at least 2 characters).');
+        isValid = false;
     }
     
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        showFormError('Please enter a valid email address.');
-        return false;
+    if (!email || !emailRegex.test(email)) {
+        showFieldError('contact-email', 'Please enter a valid email address.');
+        isValid = false;
     }
     
+    // Message validation
+    if (!message || message.trim().length < 10) {
+        showFieldError('contact-message', 'Please enter a message (at least 10 characters).');
+        isValid = false;
+    }
+    
+    // Subject is optional, no validation needed
+    
+    return isValid;
+}
+
+function validateField(input) {
+    const value = input.value.trim();
+    const fieldId = input.id;
+    
+    switch (fieldId) {
+        case 'contact-name':
+            if (value.length < 2) {
+                showFieldError(fieldId, 'Name must be at least 2 characters long.');
+                return false;
+            }
+            break;
+        case 'contact-email':
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(value)) {
+                showFieldError(fieldId, 'Please enter a valid email address.');
+                return false;
+            }
+            break;
+        case 'contact-message':
+            if (value.length < 10) {
+                showFieldError(fieldId, 'Message must be at least 10 characters long.');
+                return false;
+            }
+            break;
+        // Subject is optional, no validation
+    }
+    
+    clearFieldError(input);
     return true;
+}
+
+function showFieldError(fieldId, message) {
+    const input = document.getElementById(fieldId);
+    const errorElement = document.getElementById(fieldId.replace('contact-', '') + '-error');
+    
+    if (input && errorElement) {
+        input.classList.add('error');
+        errorElement.textContent = message;
+        errorElement.classList.add('show');
+        input.setAttribute('aria-invalid', 'true');
+    }
+}
+
+function clearFieldError(input) {
+    const fieldId = input.id;
+    const errorElement = document.getElementById(fieldId.replace('contact-', '') + '-error');
+    
+    if (input && errorElement) {
+        input.classList.remove('error');
+        errorElement.textContent = '';
+        errorElement.classList.remove('show');
+        input.setAttribute('aria-invalid', 'false');
+    }
+}
+
+function clearAllErrors() {
+    const inputs = contactForm.querySelectorAll('.form-input');
+    inputs.forEach(input => clearFieldError(input));
 }
 
 function showFormLoading(isLoading) {
@@ -219,19 +299,35 @@ function showFormLoading(isLoading) {
     
     if (isLoading) {
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        submitBtn.classList.add('loading');
+        submitBtn.setAttribute('aria-busy', 'true');
     } else {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Send Message';
+        submitBtn.classList.remove('loading');
+        submitBtn.setAttribute('aria-busy', 'false');
     }
 }
 
 function showFormSuccess() {
-    showNotification('Message sent successfully! I\'ll get back to you soon.', 'success');
+    showFormStatus('Message sent successfully! I\'ll get back to you soon.', 'success');
 }
 
 function showFormError(message) {
-    showNotification(message, 'error');
+    showFormStatus(message, 'error');
+}
+
+function showFormStatus(message, type) {
+    const statusElement = document.getElementById('submit-status');
+    
+    if (statusElement) {
+        statusElement.textContent = message;
+        statusElement.className = `form-status ${type} show`;
+        
+        // Auto hide after 5 seconds
+        setTimeout(() => {
+            statusElement.classList.remove('show');
+        }, 5000);
+    }
 }
 
 function showNotification(message, type) {
