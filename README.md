@@ -1,4 +1,4 @@
-# Personal Portfolio Website[https://scalix.dev/]
+# [Personal Portfolio Website](https://scalix.dev/)
 
 A modern, responsive personal portfolio website built with HTML5, CSS3, and vanilla JavaScript. Features a clean design, smooth animations, and comprehensive sections to showcase your skills and projects.
 
