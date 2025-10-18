@@ -375,13 +375,6 @@ body {
     font-weight: 500;
 }
 
-.about-img {
-    width: 100%;
-    border-radius: var(--border-radius-lg);
-    box-shadow: var(--shadow-lg);
-    background: var(--bg-secondary);
-    transition: var(--transition);
-}
 
 .about-img:hover {
     transform: scale(1.02);
