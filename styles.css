@@ -61,13 +61,15 @@ body {
     --space-20: 5rem;
 }
 
-/* Dark theme variables */
-[data-theme="dark"] {
-    --text-color: #f9fafb;
-    --text-light: #d1d5db;
-    --bg-color: #111827;
-    --bg-secondary: #1f2937;
-    --border-color: #374151;
+/* Dark theme variables via system preference */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-color: #f9fafb;
+        --text-light: #d1d5db;
+        --bg-color: #111827;
+        --bg-secondary: #1f2937;
+        --border-color: #374151;
+    }
 }
 
 /* ===== UTILITY CLASSES ===== */
@@ -111,8 +113,8 @@ body {
     transition: var(--transition);
 }
 
-[data-theme="dark"] .header {
-    background: rgba(17, 24, 39, 0.95);
+@media (prefers-color-scheme: dark) {
+    .header { background: rgba(17, 24, 39, 0.95); }
 }
 
 .nav-container {
@@ -167,6 +169,8 @@ body {
     width: 100%;
 }
 
+.nav-check { display: none; }
+
 .nav-toggle {
     display: none;
     flex-direction: column;
@@ -181,26 +185,7 @@ body {
     transition: var(--transition);
 }
 
-.theme-toggle {
-    background: none;
-    border: 2px solid var(--border-color);
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: var(--text-color);
-    transition: var(--transition);
-    margin-left: var(--space-4);
-}
-
-.theme-toggle:hover {
-    background: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
-}
+/* Removed theme-toggle button (no JS). Dark mode uses prefers-color-scheme. */
 
 /* ===== HERO SECTION ===== */
 .hero {
@@ -380,6 +365,31 @@ body {
     transform: scale(1.02);
 }
 
+/* Right-side About gallery */
+.about-gallery {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+}
+
+.photo-item { margin: 0; }
+
+.about-photo {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+    background: var(--bg-secondary);
+}
+
+/* Aspect helpers for variety */
+.about-photo.tall { aspect-ratio: 3 / 4; }
+.about-photo.square { aspect-ratio: 1 / 1; }
+.about-photo.wide { aspect-ratio: 16 / 9; }
+
 /* ===== SKILLS SECTION ===== */
 .skills {
     padding: var(--space-20) 0;
@@ -447,8 +457,8 @@ body {
     height: 100%;
     background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
     border-radius: 4px;
-    width: 0%;
-    transition: width 1.5s ease-in-out;
+    width: var(--w, 0%);
+    transition: width 0.8s ease-in-out;
 }
 
 /* ===== PROJECTS SECTION ===== */
@@ -788,17 +798,21 @@ body {
     border: 1px solid #fecaca;
 }
 
-[data-theme="dark"] .form-status.success {
-    background: #052e16;
-    color: #bbf7d0;
-    border-color: #166534;
+@media (prefers-color-scheme: dark) {
+    .form-status.success {
+        background: #052e16;
+        color: #bbf7d0;
+        border-color: #166534;
+    }
+    .form-status.error {
+        background: #450a0a;
+        color: #fecaca;
+        border-color: #991b1b;
+    }
 }
 
-[data-theme="dark"] .form-status.error {
-    background: #450a0a;
-    color: #fecaca;
-    border-color: #991b1b;
-}
+/* Offset anchored sections for fixed header */
+section { scroll-margin-top: 90px; }
 
 /* ===== FOOTER ===== */
 .footer {
@@ -828,14 +842,7 @@ body {
     font-size: var(--font-size-lg);
     box-shadow: var(--shadow);
     transition: var(--transition);
-    opacity: 0;
-    visibility: hidden;
     z-index: 1000;
-}
-
-.back-to-top.show {
-    opacity: 1;
-    visibility: visible;
 }
 
 .back-to-top:hover {
@@ -941,39 +948,26 @@ body {
 
 @media (max-width: 768px) {
     /* Navigation */
+    .nav-toggle { display: flex; }
     .nav-menu {
         position: fixed;
-        left: -100%;
-        top: 70px;
+        inset: 70px 0 auto 0; /* top:70px; left:0; right:0 */
+        max-height: 0;
+        overflow: hidden;
         flex-direction: column;
         background: var(--bg-color);
         width: 100%;
         text-align: center;
-        transition: 0.3s;
+        transition: max-height 0.3s ease;
         box-shadow: var(--shadow);
         border-top: 1px solid var(--border-color);
-        padding: var(--space-4) 0;
     }
-
-    .nav-menu.active {
-        left: 0;
-    }
-
-    .nav-toggle {
-        display: flex;
-    }
-
-    .nav-toggle.active .bar:nth-child(2) {
-        opacity: 0;
-    }
-
-    .nav-toggle.active .bar:nth-child(1) {
-        transform: translateY(8px) rotate(45deg);
-    }
-
-    .nav-toggle.active .bar:nth-child(3) {
-        transform: translateY(-8px) rotate(-45deg);
-    }
+    /* Checkbox hack to open menu */
+    .nav-check:checked ~ .nav-menu { max-height: 60vh; padding: var(--space-4) 0; }
+    /* Animate hamburger into X when checked */
+    .nav-check:checked + .nav-toggle .bar:nth-child(2) { opacity: 0; }
+    .nav-check:checked + .nav-toggle .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .nav-check:checked + .nav-toggle .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
     /* Hero Section */
     .hero-container {
@@ -1000,6 +994,13 @@ body {
         grid-template-columns: 1fr;
         gap: var(--space-8);
     }
+
+    .about-gallery {
+        order: -1; /* Show images above text on mobile */
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-4);
+    }
+    .about-photo.tall { aspect-ratio: 4 / 5; }
 
     .about-stats {
         grid-template-columns: 1fr;

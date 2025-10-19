@@ -14,23 +14,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Header & Navigation -->
+    <!-- Header & Navigation (No-JS, CSS-only hamburger) -->
     <header class="header">
-        <nav class="nav">
+        <nav class="nav" aria-label="Chính">
             <div class="nav-container">
                 <a href="#home" class="nav-logo">Portfolio</a>
-                <ul class="nav-menu" id="nav-menu">
-                    <li class="nav-item"><a href="#home" class="nav-link">Trang chủ</a></li>
-                    <li class="nav-item"><a href="#about" class="nav-link">Giới thiệu</a></li>
-                    <li class="nav-item"><a href="#skills" class="nav-link">Kỹ năng</a></li>
-                    <li class="nav-item"><a href="#projects" class="nav-link">Dự án</a></li>
-                    <li class="nav-item"><a href="#contact" class="nav-link">Liên hệ</a></li>
+                <!-- Checkbox hack for mobile menu toggle (no JS) -->
+                <input type="checkbox" id="nav-check" class="nav-check" aria-hidden="true">
+                <label class="nav-toggle" for="nav-check" aria-label="Mở/đóng menu" aria-controls="nav-menu" aria-expanded="false">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </label>
+                <ul class="nav-menu" id="nav-menu" role="menu">
+                    <li class="nav-item" role="none"><a href="#home" class="nav-link" role="menuitem">Trang chủ</a></li>
+                    <li class="nav-item" role="none"><a href="#about" class="nav-link" role="menuitem">Giới thiệu</a></li>
+                    <li class="nav-item" role="none"><a href="#skills" class="nav-link" role="menuitem">Kỹ năng</a></li>
+                    <li class="nav-item" role="none"><a href="#projects" class="nav-link" role="menuitem">Dự án</a></li>
+                    <li class="nav-item" role="none"><a href="#contact" class="nav-link" role="menuitem">Liên hệ</a></li>
                 </ul>
-                <div class="nav-toggle" id="nav-toggle">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                </div>
             </div>
         </nav>
     </header>
@@ -123,6 +125,18 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Right column: Image gallery -->
+                    <div class="about-gallery" aria-label="Bộ sưu tập ảnh">
+                        <figure class="photo-item">
+                            <img src="images/z7133139955843_4c248e78947bddf3882823228195896b.jpg" alt="Bàn làm việc với laptop và đèn bàn" class="about-photo wide">
+                        </figure>
+                        <figure class="photo-item">
+                            <img src="images/z7133139968677_0aafcd6d96e1bb3aba446d0ff278c420.jpg" alt="Lập trình Spring Boot trên màn hình laptop" class="about-photo square">
+                        </figure>
+                        <figure class="photo-item">
+                            <img src="images/z7133139946618_3d1e7c37c78102de988116487b16bad7.jpg" alt="Giao diện hệ thống vaccine trên trình duyệt" class="about-photo tall">
+                        </figure>
+                    </div>
                 </div>
             </div>
         </section>
@@ -141,7 +155,7 @@
                                     <span class="skill-percentage">85%</span>
                                 </div>
                                 <div class="skill-bar">
-                                    <div class="skill-progress" data-width="85"></div>
+                                    <div class="skill-progress" style="--w:85%"></div>
                                 </div>
                             </div>
                             <div class="skill-item">
@@ -150,7 +164,7 @@
                                     <span class="skill-percentage">80%</span>
                                 </div>
                                 <div class="skill-bar">
-                                    <div class="skill-progress" data-width="80"></div>
+                                    <div class="skill-progress" style="--w:80%"></div>
                                 </div>
                             </div>
                             <div class="skill-item">
@@ -159,7 +173,7 @@
                                     <span class="skill-percentage">75%</span>
                                 </div>
                                 <div class="skill-bar">
-                                    <div class="skill-progress" data-width="75"></div>
+                                    <div class="skill-progress" style="--w:75%"></div>
                                 </div>
                             </div>
                             <div class="skill-item">
@@ -168,7 +182,7 @@
                                     <span class="skill-percentage">85%</span>
                                 </div>
                                 <div class="skill-bar">
-                                    <div class="skill-progress" data-width="85"></div>
+                                    <div class="skill-progress" style="--w:85%"></div>
                                 </div>
                             </div>
                         </div>
@@ -232,6 +246,7 @@
                 <div class="projects-grid">
                     <div class="project-card">
                         <div class="project-image">
+                            <img src="images/project1-placeholder.jpg" alt="API Authentication">
                             <div class="project-overlay">
                                 <div class="project-links">
                                     <a href="https://github.com/nguyenxuanhai-arch/myservice" class="project-link" target="_blank"><i class="fas fa-external-link-alt"></i></a>
@@ -346,9 +361,9 @@
         </section>
     </main>
 
-    <!-- Back to Top Button -->
-    <button class="back-to-top" id="back-to-top">
-        <i class="fas fa-arrow-up"></i>
-    </button>
+    <!-- Back to Top (CSS-only anchor) -->
+    <a href="#home" class="back-to-top" aria-label="Lên đầu trang">
+        <i class="fas fa-arrow-up" aria-hidden="true"></i>
+    </a>
 </body>
 </html>
