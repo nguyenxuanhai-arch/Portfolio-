@@ -473,6 +473,113 @@ body {
     transition: width 0.8s ease-in-out;
 }
 
+/* ===== CERTIFICATIONS & AWARDS SECTION ===== */
+.certifications {
+    padding: var(--space-20) 0;
+    background: var(--bg-secondary);
+}
+
+.certs-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--space-8);
+}
+
+.certs-placeholder {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: var(--space-12) var(--space-8);
+    background: var(--bg-color);
+    border-radius: var(--border-radius-lg);
+    border: 2px dashed var(--border-color);
+}
+
+.certs-placeholder i {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: var(--space-4);
+    display: block;
+    opacity: 0.6;
+}
+
+.certs-placeholder p {
+    color: var(--text-light);
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--space-3);
+}
+
+.certs-note {
+    font-size: var(--font-size-sm);
+    font-style: italic;
+    opacity: 0.8;
+}
+
+.cert-card {
+    background: var(--bg-color);
+    padding: var(--space-8);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    text-align: center;
+}
+
+.cert-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.cert-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: var(--space-4);
+}
+
+.cert-title {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: var(--space-2);
+}
+
+.cert-issuer {
+    color: var(--text-light);
+    font-weight: 500;
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--space-1);
+}
+
+.cert-date {
+    color: var(--accent-color);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--space-4);
+    font-weight: 500;
+}
+
+.cert-description {
+    color: var(--text-light);
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    margin-bottom: var(--space-6);
+}
+
+.cert-link {
+    display: inline-block;
+    padding: var(--space-2) var(--space-5);
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    font-size: var(--font-size-sm);
+    transition: var(--transition);
+}
+
+.cert-link:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
 /* ===== PROJECTS SECTION ===== */
 .projects {
     padding: var(--space-20) 0;
@@ -1023,6 +1130,20 @@ section { scroll-margin-top: 90px; }
     .skills-content {
         grid-template-columns: 1fr;
         gap: var(--space-8);
+    }
+
+    /* Certifications Section */
+    .certs-content {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+    }
+
+    .certs-placeholder {
+        padding: var(--space-8);
+    }
+
+    .certs-placeholder i {
+        font-size: 2.5rem;
     }
 
     /* Projects Section */
